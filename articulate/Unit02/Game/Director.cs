@@ -13,15 +13,20 @@ namespace Unit02.Game
     {
         List<Die> _dice = new List<Die>();
         bool _isPlaying = true;
-        int _score = 0;
-        int _totalScore = 0;
+        //Winning guess will earn 100 points. a wrong guess will loses 75 points
+        int win = 100;
+        int lose = -75;
+        
+        int _totalScore = 300;// Player will start the game with 300 points
 
+        int rollBet;
+        int rollNext;
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
         public Director()
         {
-            for (int i = 0; i < 5; i++)
+            
             {
                 Die die = new Die();
                 _dice.Add(die);
@@ -33,41 +38,88 @@ namespace Unit02.Game
         /// </summary>
         public void StartGame()
         {
+            Die Throw = new Die();
+            Throw.Roll();
+            rollBet = Throw.value;
+            string guess;
+
             while (_isPlaying)
             {
-                GetInputs();
-                DoUpdates();
+                guess = GetInputs();
+                DoUpdates(guess);
                 DoOutputs();
+                rollBet = rollNext;
             }
         }
 
         /// <summary>
-        /// Asks the user if they want to roll.
+        /// Asks the user if they want to Roll.
         /// </summary>
-        public void GetInputs()
+        public string GetInputs()
         {
-            Console.Write("Roll dice? [y/n] ");
+            //Input for a user
+            Console.Write("Roll a dice? [y/n] ");
             string rollDice = Console.ReadLine();
-            _isPlaying = (rollDice == "y");
-        }
+           if (_isPlaying = (rollDice == "y"))
+        
+            {
+                //Now we will display the card
+            Console.WriteLine($"The dice is {rollBet} ");
+            //Ask user to guess if they think for higher and lower card
+            Console.Write("will the next dice will be higher or lower? [h/l] ");
+            string guess = Console.ReadLine();
 
-        /// <summary>
-        /// Updates the player's score.
-        /// </summary>
-        public void DoUpdates()
+            return guess;
+            }
+
+            else
+            {
+                return "quit";
+            }
+
+        }
+        public void DoUpdates(string guess)
         {
+            int score = 0;
+
+            Die Throw = new Die();
+
             if (!_isPlaying)
             {
                 return;
             }
 
-            _score = 0;
-            foreach (Die die in _dice)
+            Throw.Roll();
+            //set the next dice to roll value
+            rollNext = Throw.value;
+
+            if (guess =="h")
             {
-                die.Roll();
-                _score += die._points;
+                if (rollBet < rollNext)
+                {
+                    score = win;
+                    Console.WriteLine("You got the rolled!");
+                }
+                else
+                {
+                    score = lose;
+                    Console.WriteLine("You lose!");
+                }
             }
-            _totalScore += _score;
+            if (guess == "l")
+            {
+                if (rollBet < rollNext)
+                {
+                    Console.WriteLine("You lose!");
+                }
+                else
+                {
+                    score = win ;
+                    Console.WriteLine("You got the rolled!");
+                }
+            }
+            _totalScore += score;
+
         }
 
         /// <summary>
@@ -80,15 +132,11 @@ namespace Unit02.Game
                 return;
             }
 
-            string values = "";
-            foreach (Die die in _dice)
-            {
-                values += $"{die._value} ";
-            }
+            
 
-            Console.WriteLine($"You rolled: {values}");
+            Console.WriteLine($"You rolled: {rollNext}");
             Console.WriteLine($"Your score is: {_totalScore}\n");
-            _isPlaying = (_score > 0);
+            _isPlaying = (_totalScore > 0);
         }
     }
 }
