@@ -63,7 +63,7 @@ namespace Unit02.Game
            if (_isPlaying = (rollDice == "y"))
         
             {
-                //Now we will display the card
+                //Now we will display the dice
             Console.WriteLine($"The dice is {rollBet} ");
             //Ask user to guess if they think for higher and lower card
             Console.Write("will the next dice will be higher or lower? [h/l] ");
