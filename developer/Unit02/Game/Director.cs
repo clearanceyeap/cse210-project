@@ -59,8 +59,8 @@ namespace Unit02.Game
         {
             //Input for a user
             Console.Write("Shuffle a deck? [y/n] ");
-            string shuffleDeck = Console.ReadLine();
-           if (_isPlaying = (shuffleDeck == "y"))
+            string deckShuffle = Console.ReadLine();
+           if (_isPlaying = (deckShuffle == "y"))
         
             {
                 //Now we will display the decks results
