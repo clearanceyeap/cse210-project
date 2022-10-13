@@ -11,16 +11,16 @@ namespace Unit02.Game
     /// </summary>
     public class Director
     {
-        List<Die> _dice = new List<Die>();
+        List<Deck> decks = new List<Deck>();
         bool _isPlaying = true;
         //Winning guess will earn 100 points. a wrong guess will loses 75 points
-        int win = 100;
-        int lose = -75;
+        int win = 100;//points awarded if player is guess correctly
+        int lose = -75;// Player deduct point if lose
         
         int _totalScore = 300;// Player will start the game with 300 points
 
-        int rollBet;
-        int rollNext;
+        int shuffleDeck;
+        int deckNext;
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
@@ -28,8 +28,8 @@ namespace Unit02.Game
         {
             
             {
-                Die die = new Die();
-                _dice.Add(die);
+                Deck deck = new Deck();
+                decks.Add(deck);
             }
         }
 
@@ -38,9 +38,9 @@ namespace Unit02.Game
         /// </summary>
         public void StartGame()
         {
-            Die Throw = new Die();
-            Throw.Roll();
-            rollBet = Throw.value;
+            Deck deck = new Deck();
+            deck.Shuffle();
+            shuffleDeck = deck.value;
             string guess;
 
             while (_isPlaying)
@@ -48,25 +48,25 @@ namespace Unit02.Game
                 guess = GetInputs();
                 DoUpdates(guess);
                 DoOutputs();
-                rollBet = rollNext;
+                shuffleDeck = deckNext;
             }
         }
 
         /// <summary>
-        /// Asks the user if they want to Roll.
+        /// Asks the user if they want to play
         /// </summary>
         public string GetInputs()
         {
             //Input for a user
-            Console.Write("Roll a dice? [y/n] ");
-            string rollDice = Console.ReadLine();
-           if (_isPlaying = (rollDice == "y"))
+            Console.Write("Shuffle a deck? [y/n] ");
+            string shuffleDeck = Console.ReadLine();
+           if (_isPlaying = (shuffleDeck == "y"))
         
             {
                 //Now we will display the dice
-            Console.WriteLine($"The dice is {rollBet} ");
+            Console.WriteLine($"Your deck is {shuffleDeck} ");
             //Ask user to guess if they think for higher and lower card
-            Console.Write("will the next dice will be higher or lower? [h/l] ");
+            Console.Write("will the next deck will be higher or lower? [h/l] ");
             string guess = Console.ReadLine();
 
             return guess;
@@ -74,7 +74,7 @@ namespace Unit02.Game
 
             else
             {
-                return "quit";
+                return "Exit Game";
             }
 
         }
@@ -82,23 +82,23 @@ namespace Unit02.Game
         {
             int score = 0;
 
-            Die Throw = new Die();
+            Deck deck = new Deck();
 
             if (!_isPlaying)
             {
                 return;
             }
 
-            Throw.Roll();
-            //set the next dice to roll value
-            rollNext = Throw.value;
+            deck.Shuffle();
+            //set the next the deck to shuffle for value
+            deckNext = deck.value;
 
             if (guess =="h")
             {
-                if (rollBet < rollNext)
+                if (shuffleDeck < deckNext)
                 {
                     score = win;
-                    Console.WriteLine("You got the rolled!");
+                    Console.WriteLine("You guess the decked!");
                 }
                 else
                 {
@@ -108,14 +108,14 @@ namespace Unit02.Game
             }
             if (guess == "l")
             {
-                if (rollBet < rollNext)
+                if (shuffleDeck < deckNext)
                 {
                     Console.WriteLine("You lose!");
                 }
                 else
                 {
                     score = win ;
-                    Console.WriteLine("You got the rolled!");
+                    Console.WriteLine("You guess the deck!");
                 }
             }
             _totalScore += score;
@@ -134,7 +134,7 @@ namespace Unit02.Game
 
             
 
-            Console.WriteLine($"You rolled: {rollNext}");
+            Console.WriteLine($"You rolled: {deckNext}");
             Console.WriteLine($"Your score is: {_totalScore}\n");
             _isPlaying = (_totalScore > 0);
         }
