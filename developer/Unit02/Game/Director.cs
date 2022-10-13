@@ -63,9 +63,9 @@ namespace Unit02.Game
            if (_isPlaying = (shuffleDeck == "y"))
         
             {
-                //Now we will display the dice
+                //Now we will display the decks results
             Console.WriteLine($"Your deck is {shuffleDeck} ");
-            //Ask user to guess if they think for higher and lower card
+            //Ask user to guess if they think for higher and lower deck
             Console.Write("will the next deck will be higher or lower? [h/l] ");
             string guess = Console.ReadLine();
 
@@ -123,7 +123,7 @@ namespace Unit02.Game
         }
 
         /// <summary>
-        /// Displays the dice and the score. Also asks the player if they want to roll again. 
+        /// Displays the deck and the score. Also asks the player if they want to retry. 
         /// </summary>
         public void DoOutputs()
         {
